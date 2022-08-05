@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jhc.sqq.myblog.mapper.BlogTypeMapper">
+
+    <resultMap id="BlogTypeResult" type="blogtype">
+        <result property="id" column="id"></result>
+        <result property="typeName" column="typeName"></result>
+        <result property="orderNo" column="orderNo"></result>
+        <result property="blogCount" column="blogCount"></result>
+        <result property="typeImage" column="typeImage"></result>
+        <association property="blogger" column="bloggerid" select="cn.jhc.sqq.myblog.mapper.BloggerMapper.findById"></association>
+    </resultMap>
+
+    <select id="findAllBlogType" parameterType="integer" resultMap="BlogTypeResult">
+        select t2.id,t2.typeName,count(t1.id) as blogCount from blog t1
+        right join blogtype t2 on t1.typeId = t2.id
+        <where>
+            <if test="bloggerid != null">
+                and t2.bloggerid = #{bloggerid}
+            </if>
+        </where>
+        group by typeName order by t2.orderNo
+    </select>
+
+    <!--    多条件查询-->
+    <select id="conditionList" parameterType="map" resultMap="BlogTypeResult">
+        select * from blogtype
+        <where>
+            <if test="typeName!=null and typeName!=''">
+                and typeName=#{typeName}
+            </if>
+            <if test="bloggerid!=null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+
+        order by orderNo asc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+
+    </select>
+
+    <select id="findById" parameterType="integer" resultMap="BlogTypeResult">
+        select * from blogtype where id = #{id};
+    </select>
+
+    <select id="getTotal" parameterType="integer"  resultType="long">
+        select count(*) from blogtype
+        <where>
+        <if test="bloggerid != null">
+            and bloggerid = #{bloggerid}
+        </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="blogtype">
+        insert into blogtype values (null,#{typeName},#{orderNo},#{typeImage},#{blogger.id})
+    </insert>
+
+    <update id="update" parameterType="blogtype">
+        update blogtype
+        <set>
+            <if test="typeName!=null and typeName!=''">
+                typeName = #{typeName},
+            </if>
+            <if test="orderNo!=null">
+                orderNo = #{orderNo},
+            </if>
+            <if test="typeImage!=null and typeImage!=''">
+                typeImage = #{typeImage},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="integer">
+        delete from blogtype where id = #{id}
+    </delete>
+
+    <delete id="deleteMore" parameterType="int[]">
+        delete from blogType  where id in
+        <foreach collection="array" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
+</mapper>

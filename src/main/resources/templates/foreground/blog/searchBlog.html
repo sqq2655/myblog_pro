@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<style>
+    .hid{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+</style>
+
+<body>
+
+<div class="blog-page-left" >
+    <h4>[[${pageTitle}]]</h4>
+
+    <h5>关键字：[[${q}]] ,查询结果总数：[[${resultTotal}]]条</h5>
+    <div class="single-blog" th:each="blog : ${blogList}">
+    <div class="blog-text">
+        <h2><a th:href="@{/toDetails/}+${blog.blogger?.id}+'/'+${blog.id}+'.html'" th:utext="${blog.title}"></a></h2>
+        <div class="blog-meta">
+            <ul>
+<!--                <li th:text="${#dates.format(blog.releaseDate,':) MM-dd,yyyy')}"></li>-->
+                <li th:text="${blog.releaseDateStr}"></li>
+                <li style="font-weight: bold;"><a href="#">[[${blog.blogger?.nickName}]]</a></li>
+<!--                <li><a href="#" >[[${blog.replyHit}]] <i class="fa fa-comments-o"></i></a></li>-->
+            </ul>
+        </div>
+        <div  class="post-content hid" th:utext="${blog.content}">
+
+        </div>
+        <div class="post-content">
+            <p class="text-right" th:utext="${blog.keyWord}"></p>
+        </div>
+        <a th:href="@{/toDetails/}+${blog.blogger?.id}+'/'+${blog.id}+'.html'" class="rapid-btn">阅读全文</a>
+        <div class="share-button-social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-facebook"></i></a>
+        </div>
+    </div>
+</div>
+</div>
+<!--分页-->
+<div class="pagination_box">
+    <ul class="pagination">
+        <!--转义显示-->
+        [(${pageCode})]
+    </ul>
+</div>
+</body>
+</html>

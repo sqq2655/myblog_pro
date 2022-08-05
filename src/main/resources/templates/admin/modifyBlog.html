@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>修改博客</title>
+    <LINK rel="stylesheet" type="text/css"
+          th:href="@{/easyui/easyui.css}">
+    <LINK rel="stylesheet" type="text/css"
+          th:href="@{/easyui/icon.css}">
+    <script type="text/javascript"
+            th:src="@{/easyui/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/easyui/jquery.easyui.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/easyui/easyui-lang-zh_CN.js}"></script>
+    <script type="text/javascript" charset="UTF-8"
+            th:src="@{/ueditor/ueditor.config.js}"></script>
+    <script type="text/javascript" charset="UTF-8"
+            th:src="@{/ueditor/ueditor.all.js}"></script>
+    <script type="text/javascript" charset="UTF-8"
+            th:src="@{/ueditor/lang/zh-cn/zh-cn.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        var ctx = /*[[@{/}]]*/ '';
+        var paramId = [[${id}]];
+        function submitData() {
+            var title = $("#title").val();
+            var blogTypeId = $("#blogTypeId").combobox("getValue");
+            var content = UE.getEditor("editor").getContent();
+            var keyWord = $("#keyWord").val();
+            if (title == null || title == '') {
+                $.messager.alert("系统提示", "请输入标题");
+            } else if (blogTypeId == null || blogTypeId == '') {
+                $.messager.alert("系统提示", "请输入博客类别");
+            } else if (content == null || content == '') {
+                $.messager.alert("系统提示", "请输入博客内容");
+            } else if (keyWord == null || keyWord == '') {
+                $.messager.alert("系统提示", "请输入关键字");
+            } else {
+                $.post(ctx + "admin/blog/save",
+                    {
+                        'id': paramId,
+                        'title': title,
+                        'contentNoTag':UE.getEditor("editor").getContentTxt(),
+                        'blogType.id': blogTypeId,
+                        'content': content,
+                        'summary': UE.getEditor("editor").getContentTxt().substr(0, 155),
+                        'keyWord': keyWord
+                    },
+                    function (obj) {
+                        if (obj) {
+                            $.messager.alert("系统提示", "博客修改成功","info",function () {
+                                window.parent.openTab('博客信息管理','blogManage','icon-bkgl');
+                                $("#tabs").tabs('close', {
+                                    title: "modifyBlog"
+                                });
+                            });
+                        } else {
+                            $.messager.alert("系统提示", "博客修改失败");
+                        }
+                    }, "json");
+            }
+
+        }
+
+        function clearValue() {
+            $("#title").val('');
+            $("#blogTypeId").combobox("setValue",0);
+            UE.getEditor("editor").setContent('');
+            $("#keyWord").val('');
+        }
+    </script>
+</head>
+<body style="margin: 10px">
+<div id="p" class="easy-panel" title="修改博客" style="padding: 10px">
+    <table cellspacing="20px">
+        <tr>
+            <td width="80px">博客标题：</td>
+            <td><input type="text" id="title" name="title" style="width: 400px" ></td>
+        </tr>
+
+        <tr>
+            <td>所属类别</td>
+            <td>
+                <select class="easyui-combobox" id="blogTypeId" name="blogType.id" style="width: 154px;"
+                        editable="false"
+                        panelHeight="auto">
+                    <option value="0">请选择博客类别</option>
+                    <option th:each="blogType:${application.blogTypeList}" th:value="${blogType.id}" th:text="${blogType.typeName}"></option>
+
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <td>博客内容</td>
+            <td>
+                <script type="text/plain" id="editor" style="width: 100%;height: 500px;"></script>
+            </td>
+        </tr>
+
+        <tr>
+            <td>关键字</td>
+            <td><input type="text" id="keyWord" name="keyWord" style="width: 400px">
+                &nbsp;(多个关键字间用空格隔开)
+            </td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td><a onclick="submitData()" class="easyui-linkbutton" data-options="iconCls:'icon-submit'">修改</a></td>
+            <td><a onclick="clearValue()" class="easyui-linkbutton" data-options="iconCls:'icon-reload'">重置</a></td>
+        </tr>
+
+    </table>
+</div>
+
+<script th:inline="javascript" type="text/javascript">
+    var ctx = /*[[@{/}]]*/ '';
+    var paramId = [[${id}]];
+    var ue = UE.getEditor("editor");
+    //ue加载完后执行
+    ue.addListener("ready", function () {
+        $.ajax(ctx+"admin/blog/findById", {
+            method: "post",
+            asyc: false,
+            data: {id: paramId},
+            success: function (obj) {
+                $("#title").val(obj.title);
+                $("#blogTypeId").combobox("setValue", obj.blogType.id);
+                $("#keyWord").val(obj.keyWord);
+                UE.getEditor("editor").setContent(obj.content);
+            }
+        })
+    })
+</script>
+</body>
+</html>

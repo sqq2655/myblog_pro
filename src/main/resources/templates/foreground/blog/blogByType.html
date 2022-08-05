@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Title -->
+    <title>My Blog</title>
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <!-- Font awesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/animate.min.css}">
+    <!-- OwlCarousel CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/owl.carousel.css}">
+    <!-- SlickNav CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/slicknav.min.css}">
+    <!-- Magnific popup CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/responsive.css}">
+</head>
+<style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        /*background: linear-gradient(125deg, #66a8cc, #b8e994) fixed;*/
+    }
+
+    .hid{
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+    }
+
+
+</style>
+<body>
+<div class="container-fluid" style="background: #3b4249; opacity: 0.5">
+    <div shiro:authenticated="true" class="row" style="padding: 3px 10px;">
+        <div class="col-xs-offset-1 col-xs-5 col-md-offset-2 col-md-2"><h3 style="color:red"><i class="fa fa-fire"></i> 欢迎 &nbsp;&nbsp;<shiro:principal/></h3></div>
+        <div class="col-md-6 col-xs-5 text-right">
+            <a class="btn btn-info text-success" onclick="logout()">退出登陆</a>
+        </div>
+        <div class="col-md-2 col-xs-1"></div>
+
+    </div>
+    <div shiro:notAuthenticated="true" class="row">
+        <div class="col-md-offset-9 col-xs-offset-8 col-md-3 col-xs-4" style="padding: 3px 10px;">
+            <a class="btn btn-info" th:href="@{/toLogin}">登陆</a>
+            &nbsp;
+            <a class="btn btn-info " data-toggle="modal" data-target="#regModal">注册</a>
+        </div>
+
+    </div>
+</div>
+<div th:insert="/foreground/common/menu.html"></div>
+
+
+<!--<section class="rapid-breadcromb-area section_50">-->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-md-12">-->
+<!--                <div class="breadcromb">-->
+<!--                    <h3>Go next we are always with you</h3>-->
+<!--                    <ul>-->
+<!--                        <li><a href="#">博客类别标签</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+
+<!-- Allpost Area Start -->
+<section class="rapid-Allpost-area section_50">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="panel panel-danger">
+                    <div class="panel-header text-center" style="padding: 8px 1px">
+                        &nbsp;<h4><i class="fa fa-bookmark"></i>&nbsp;&nbsp;博客分类</h4>
+                    </div>
+                    <div class="panel-body"  >
+                        <div style="width: 80%;margin: 0 auto" class="text-center row"   >
+                            <div th:if="${application.blogTypeList.size()==0}">
+                                <h3 class="text-danger">暂无分类</h3>
+                            </div>
+                            <div th:each=" blogType : ${application.blogTypeList}">
+                                <div th:if="${typeId} == ${blogType.id}">
+                                    <a th:href="@{/getByBlogType(typeId=${blogType.id},bid=${bid})}" class="bg btn-danger" style=" float:left;margin:20px; padding: 8px 15px; border-radius: 10px">[[${blogType.typeName}]]</a>
+                                </div>
+                                <div th:if="${typeId} != ${blogType.id}">
+                                    <a th:href="@{/getByBlogType(typeId=${blogType.id},bid=${bid})}" class="bg bg-info" style=" float:left;margin:20px; padding: 8px 15px; border-radius: 10px">[[${blogType.typeName}]]</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-body">
+                        <div style="width: 80%;margin: 0 auto" class="text-center row ">
+                            <ul class="row" >
+                                <li  th:each="blog,status : ${blogListByType}" class="col-md-4 col-xs-12" style="margin: 15px 0px;">
+                                    <div class="single-blog">
+                                        <div class="blog-image" >
+                                            <a href="#" >
+                                                <img th:src="@{/assets/img/bblog-}+${status.index % 2+status.index % 1+status.index % 3+1}+'.jpg'" alt="blog"/>
+                                            </a>
+                                        </div>
+                                        <div class="blog-text" >
+                                            <div class="post-cat">
+                                                <p></p>
+                                            </div>
+                                            <h2><a th:href="@{/toDetails/}+${blog.blogger?.id}+'/'+${blog.id}+'.html'" class="hid" style="-webkit-line-clamp: 1;" th:text="${blog.title}"></a></h2>
+                                            <div class="blog-meta">
+                                                <ul>
+                                                    <li th:text="${#dates.format(blog.releaseDate,':) MM-dd,yyyy')}"></li>
+                                                    <li style="font-weight: bold;"><a th:href="@{/index(bid=${blog.blogger?.id})}">[[${blog.blogger.nickName}]]</a></li>
+                                                    <li><a href="#" >[[${blog.replyHit}]] <i class="fa fa-comments-o"></i></a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="post-content">
+                                                <p class="hid" th:text="${blog.summary}"></p>
+                                            </div>
+                                            <a th:href="@{/toDetails/}+${blog.blogger?.id}+'/'+${blog.id}+'.html'" class="rapid-btn">阅读全文</a>
+                                            <div class="share-button-social">
+<!--                                                <a href="#"><i class="fa fa-facebook"></i></a>-->
+<!--                                                <a href="#"><i class="fa fa-facebook"></i></a>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!--分页-->
+                    <div class="pagination_box panel">
+                        <ul class="pagination">
+                            <!--转义显示-->
+                            [(${pageCode})]
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Allpost Area End -->
+
+<!-- Footer Area Start -->
+<footer class="rapid-footer-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footer-left">
+                    <p>Copyright © 2019 SQQ. My Blog X.All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
+<div th:insert="foreground/common/modal.html"></div>
+
+<!-- jQuery -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+
+<!-- Magnific Popup JS -->
+<script th:src="@{/assets/js/jquery.magnific-popup.min.js}"></script>
+
+<!-- OwlCarousel JS -->
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+
+<!-- SlickNav JS -->
+<script th:src="@{/assets/js/jquery.slicknav.min.js}"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/assets/js/custom.js}"></script>
+
+<script th:src="@{/assets/js/background.js}"></script>
+
+<script th:inline="javascript" type="text/javascript">
+    var ctx = /*[[@{/}]]*/ '';
+    function logout() {
+        var e = confirm("你确定要退出登陆吗?");
+        if (e) {
+            $.post(ctx+"logout",function (obj) {
+                if (obj){
+                    alert("登出成功");
+                    location.href=ctx+"index";
+                    // location.reload();
+                }
+            })
+        }
+    }
+</script>
+</body>
+</html>

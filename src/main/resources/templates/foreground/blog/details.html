@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        /*background: linear-gradient(125deg, #66a8cc, #b8e994) fixed;*/
+    }
+</style>
+<body>
+<div class="blog-page-left">
+    <div class="single-blog">
+        <div class="blog-image">
+            <img th:src="@{/assets/img/standard.jpg}" alt="blog"/>
+        </div>
+        <div class="blog-text single-post-text">
+            <div class="post-cat">
+            </div>
+
+            <div class="bshare-custom text-center">
+                <h2>
+                    [[${blog.title}]]
+                    <a title="分享到qq空间" class="bshare-qzone"></a>
+                    <a title="分享到新浪微博" class="bshare-sinaminiblog"></a>
+                    <a title="分享到人人网" class="bshare-renren"></a>
+                    <a title="更多平台" class="bshare-more bshare-more-icon more-style-addthis"></a>
+                    <script type="text/javascript" charset="utf-8"
+                            src="http://static.bshare.cn/b/buttonLite.js#style=-1&amp;uuid=&amp;pophcol=1&amp;lang=zh"></script>
+                    <script type="text/javascript" charset="utf-8" src="http://static.bshare.cn/b/bshareC0.js"></script>
+                </h2>
+
+            </div>
+            <div class="blog-meta">
+                <ul>
+                    <li th:text="${#dates.format(blog.releaseDate,':) MM  dd,  yyyy')}"></li>
+                    <li><a href="#" style="font-weight: bold">[[${blog.blogger?.nickName}]]</a></li>
+                    <li style="font-size: 30px" class="col-md-offset-6"><a href="#" class="text-success"><i
+                            class="fa fa-hand-pointer-o"></i>[[${blog.clickHit}]] </a></li>
+                    <li style="font-size: 30px"><a href="#comments" class="text-success"><i
+                            class="fa fa-comments-o"></i>[[${blog.replyHit}]] </a></li>
+                </ul>
+            </div>
+            <div class="post-content" th:utext="${blog.content}">
+            </div>
+            <div>
+                <hr/>
+                [(${pageCode})]
+            </div>
+            <div class="single-post-btm-tag">
+                <div class="row">
+                    <div class="col-md-8 no-pad-left">
+                        <h3 class="text-success">Author</h3>
+                    </div>
+                    <div class="col-md-4 no-pad-right">
+                        <div class="share-button-social btm-tag-right">
+<!--                            <h4><a  th:href="@{/aboutMe}">博主详情</a></h4>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="author-bio">
+                <a th:if="${blog.blogger.imageName == null}" >
+                    <img  th:src="@{/images/avatar0.jpg}" style="width: 100px;height: 100px"
+                         alt="about image"/>
+                </a>
+                <a th:if="${blog.blogger.imageName != null}" >
+                    <img  th:src="@{/avatar/}+${blog.blogger.imageName}"style="width: 100px;height: 100px"
+                         alt="about image"/>
+                </a>
+                <div class="author-info">
+                    <h3 th:text="${blog.blogger?.nickName}"></h3>
+                    <ul>
+                        <li><a href="#"><i class="fa fa-qq"></i></a></li>
+                        <li><a href="#"><i class="fa fa-weibo"></i></a></li>
+                        <li><a href="#"><i class="fa fa-wechat"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="rapid-comment-list">
+                <div class="comment-group-title">
+                    <h2>共[[${blog.commentCount}]] 条评论</h2>
+                </div>
+                <div class="single-comment-item">
+
+                    <div class="single-comment-box" th:if="${comments.size()==0}">
+                        <h4 class="text-center">暂无评论信息</h4>
+                    </div>
+
+                    <div class="single-comment-box" th:each="comment,sta : ${comments} ">
+                        <div th:if="${sta.index+1<=5}">
+                            <div class="main-comment">
+                                <div class="author-image">
+                                    <div th:if="${comment.blogger.imageName == null}">
+                                        <img th:src="@{/images/avatar0.jpg}" style="width: 80px;height: 80px"
+                                             class="img-responsive" alt="user"/>
+                                    </div>
+                                    <div th:if="${comment.blogger.imageName != null}">
+                                        <img th:src="@{/avatar/}+${comment.blogger.imageName}"
+                                             style="width: 80px;height: 80px" class="img-responsive" alt="user"/>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    <div class="comment-info">
+                                        <h4 th:text="${comment.blogger.nickName}"></h4>
+                                        <p>[[${#dates.format(comment.commentDate,' MM-dd,HH:mm:ss')}]] <span class="col-md-offset-8 col-xs-offset-8">第[[${sta.index+1}]]楼</span></p>
+                                    </div>
+                                    <div class="comment-text-inner">
+                                        <p th:utext="${comment.content}"></p>
+                                    </div>
+<!--                                    <a href="#" class="reply">回复</a>-->
+                                </div>
+                            </div>
+                        </div>
+                        <!--大于5条评论情况-->
+                        <div class="excessComment" th:if="${sta.index+1>5}" hidden="hidden">
+                            <div class="main-comment">
+                                <div class="author-image">
+                                    <div th:if="${comment.blogger.imageName == null}">
+                                        <img th:src="@{/images/avatar0.jpg}" style="width: 80px;height: 80px"
+                                             class="img-responsive" alt="user"/>
+                                    </div>
+                                    <div th:if="${comment.blogger.imageName != null}">
+                                        <img th:src="@{/avatar/}+${comment.blogger.imageName}"
+                                             style="width: 80px;height: 80px" class="img-responsive" alt="user"/>
+                                    </div>
+                                </div>
+                                <div class="comment-text">
+                                    <div class="comment-info">
+                                        <h4 th:text="${comment.blogger.nickName}"></h4>
+                                        <p>[[${#dates.format(comment.commentDate,' MM-dd,HH:mm:ss')}]] <span class="col-md-offset-8 col-xs-offset-8">第[[${sta.index+1}]]楼</span></p>                                    </div>
+                                    <div class="comment-text-inner">
+                                        <p th:utext="${comment.content}"></p>
+                                    </div>
+                                    <a href="#" class="reply">回复</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div th:if="${comments.size()>5}" class="text-center">
+                        <button id="showAll" onclick="showExcessComment()" type="button" class="btn btn-success">显示所有评论</button>
+                    </div>
+                    <!--回复评论-->
+                    <!--                    <div class="single-comment-box reply-comment">-->
+                    <!--                        <div class="main-comment">-->
+                    <!--                            <div class="author-image">-->
+                    <!--                                <img src="assets/img/author-8.jpg" alt="author" />-->
+                    <!--                            </div>-->
+                    <!--                            <div class="comment-text">-->
+                    <!--                                <div class="comment-info">-->
+                    <!--                                    <h4>Danial Martin</h4>-->
+                    <!--                                    <p>12 february 2015 At 11:30 pm</p>-->
+                    <!--                                </div>-->
+                    <!--                                <div class="comment-text-inner">-->
+                    <!--                                    <p>Ne erat velit invidunt his. Eum in dicta veniam interesset, harum lupta definitionem. Vocibus suscipit prodesset vim ei, equidem perpetua eu per.</p>-->
+                    <!--                                </div>-->
+                    <!--                                <a href="#" class="reply">Reply</a>-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
+
+                </div>
+            </div>
+            <!--发表评论-->
+            <hr/>
+            <div class="rapid-leave-comment " shiro:authenticated="true">
+                <h2><i class="fa fa-commenting-o"></i> 发表一条评论吧</h2>
+
+                <form id="commentForm">
+                    <input type="hidden" id="blog_id" name="blog.id" th:value="${blog.id}">
+                    <input type="hidden" id="blogger_id" name="blogger.id" th:value="${session.guest?.id == null ? session.current_user.id : session.guest.id}">
+                    <input name="userName" type="text" th:placeholder="${session.guest?.userName == null ? session.current_user.userName : session.guest.userName}"
+                           readonly="readonly">
+                    <textarea id="commentArea" style="background-color: transparent;" placeholder="请输入内容"
+                              name="content"></textarea>
+
+                    <div>
+                    <input type="text" id="verify_input" name="code" placeholder="请输入验证码" maxlength="4">
+
+
+                    <a href="javascript:void(0);" title="点击更换验证码">
+                        <img id="imgVerify" th:src="@{/comment/getCode}" alt="更换验证码" height="36" width="170"
+                             onclick="getVerify(this);">
+                    </a>
+                    </div>
+
+                    <input type="button" onclick="submitComment()" value="提交评论">
+                </form>
+            </div>
+
+            <div class="rapid-leave-comment " shiro:notAuthenticated="true">
+                <h2>发表一条评论吧</h2>
+                <h5 class="text-center" style="margin-top: 30px">
+                    登陆后才能发表评论,点此<a data-toggle="modal" data-target="#loginModal" class="text-info">登陆</a>
+                    , 未拥有账号?点此<a data-toggle="modal" data-target="#regModal" class="text-info">注册</a></h5>
+
+            </div>
+
+
+        </div>
+    </div>
+</div>
+<script th:inline="javascript" type="text/javascript">
+    var ctx = /*[[@{/}]]*/ '';
+
+    //表情传字符
+    function utf16toEntities(str) {
+
+        var patt = /[\ud800-\udbff][\udc00-\udfff]/g; // 检测utf16字符正则
+
+        str = str.replace(patt, function (char) {
+
+            var H, L, code;
+
+            if (char.length === 2) {
+
+                H = char.charCodeAt(0); // 取出高位
+
+                L = char.charCodeAt(1); // 取出低位
+
+                code = (H - 0xD800) * 0x400 + 0x10000 + L - 0xDC00; // 转换算法
+
+                return "&#" + code + ";";
+
+            } else {
+
+                return char;
+
+            }
+
+        });
+
+        return str;
+    }
+
+    function showExcessComment() {
+        $(".excessComment").show();
+        $("#showAll").hide();
+    }
+
+    /*切换验证码*/
+    function getVerify() {
+        $("#imgVerify").attr("src", ctx + 'comment/getCode?' + Math.random());
+    }
+
+    function submitComment() {
+        var blog_id = $("#blog_id").val();
+        var blogger_id = $("#blogger_id").val();
+        var content = $("#commentArea").val();
+        var code = $("#verify_input").val();
+        if (content == null || content == '') {
+            alert("请输入评论内容！")
+            return;
+        }
+        if (code == null || code == '') {
+            alert("请输入验证码！")
+            return;
+        }
+
+        $.post(ctx + "comment/submitComment",
+            {'blog.id':blog_id,'blogger.id':blogger_id,'content':utf16toEntities(content),'code':code},
+            function (obj) {
+                if (obj.success) {
+                    alert(obj.msg);
+                } else {
+                    alert(obj.msg);
+                }
+                $("#commentArea").val('');
+                getVerify();
+                $("#verify_input").val('');
+            })
+
+    }
+</script>
+</body>
+</html>

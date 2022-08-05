@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jhc.sqq.myblog.mapper.BlogMapper">
+
+    <resultMap id="BlogResult" type="blog">
+        <result property="id" column="id"></result>
+        <result property="title" column="title"></result>
+        <result property="summary" column="summary"></result>
+        <result property="releaseDate" column="releaseDate"></result>
+        <result property="clickHit" column="clickHit"></result>
+        <result property="replyHit" column="replyHit"></result>
+        <result property="keyWord" column="keyWord"></result>
+        <result property="content" column="content"></result>
+        <association property="blogType" column="typeId"
+                     select="cn.jhc.sqq.myblog.mapper.BlogTypeMapper.findById"></association>
+        <association property="commentCount" column="id"
+                     select="cn.jhc.sqq.myblog.mapper.CommentMapper.findCommentCount"></association>
+        <association property="blogger" column="bloggerid"
+                     select="cn.jhc.sqq.myblog.mapper.BloggerMapper.findById"></association>
+    </resultMap>
+
+    <select id="findAllBlog" parameterType="integer" resultMap="BlogResult">
+        select date_format(releaseDate,'%Y年%m月') as releaseDateStr, count(*) as blogCount from blog
+        <where>
+            <if test="bloggerid != null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+        group by date_format(releaseDate,'%Y年%m月')
+        order by releaseDate desc;
+    </select>
+
+
+    <select id="findById" parameterType="integer" resultMap="BlogResult">
+        select * from blog where id = #{id}
+    </select>
+
+
+    <!--    多条件查询-->
+    <select id="conditionlist" parameterType="map" resultMap="BlogResult">
+        select * from blog
+        <where>
+            <if test="title!=null and title!=''">
+                and title like '%${title}%'
+            </if>
+
+            <if test="typeId!=null and typeId!=''">
+                and typeId = #{typeId}
+            </if>
+
+            <if test="releaseDateStr!=null and releaseDateStr!=''">
+                and date_format(releaseDate,'%Y年%m月') = #{releaseDateStr}
+            </if>
+
+            <if test="bloggerid!=null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+        order by releaseDate desc
+        <if test="start != null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+    <select id="getTotal" parameterType="map" resultType="long">
+        select count(*) from blog
+        <where>
+            <if test="title!=null and title!=''">
+                and title like '%${title}%'
+            </if>
+
+            <if test="typeId!=null and typeId!=''">
+                and typeId = #{typeId}
+            </if>
+
+            <if test="releaseDateStr!=null and releaseDateStr!=''">
+                and date_format(releaseDate,'%Y年%m月') = #{releaseDateStr}
+            </if>
+            <if test="bloggerid != null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="blog">
+        <selectKey resultType="int" keyProperty="id" order="AFTER">select LAST_INSERT_ID()</selectKey>
+
+        insert into blog values (null,#{title},#{summary},now(),0,0,#{content},#{blogType.id},#{keyWord},#{blogger.id})
+    </insert>
+
+    <update id="update" parameterType="blog">
+        update blog
+        <set>
+            <if test="title!=null and title!=''">
+                title = #{title},
+            </if>
+            <if test="summary!=null and summary!=''">
+                summary = #{summary},
+            </if>
+            <if test="content!=null and content!=''">
+                content = #{content},
+            </if>
+            <if test="blogType.id!=null">
+                typeId = #{blogType.id},
+            </if>
+            <if test="clickHit!=null">
+                clickHit = #{clickHit},
+            </if>
+
+            <if test="replyHit!=null">
+                replyHit = #{replyHit},
+            </if>
+            <if test="keyWord!=null and keyWord!=''">
+                keyWord = #{keyWord},
+            </if>
+
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="integer">
+        delete from blog  where id = #{id}
+    </delete>
+
+    <delete id="deleteMore" parameterType="int[]">
+        delete from blog where id in
+        <foreach collection="array" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
+
+    <!--    <select id="getBlogCountByTypeId" parameterType="integer" resultType="integer">-->
+    <!--        select count(*) from blog where typeId=#{typeId}-->
+    <!--    </select>-->
+    <!--    上一条-->
+    <select id="getLastBlog" parameterType="integer" resultMap="BlogResult">
+        select * from blog
+        <where>
+            <if test="bloggerid != null">
+                and bloggerid = #{bloggerid}
+            </if>
+            <if test="id != null">
+                and id &lt; #{id}
+            </if>
+        </where>
+       order by id desc limit 1
+    </select>
+
+    <!--    下一条-->
+    <select id="getNextBlog" parameterType="integer" resultMap="BlogResult">
+        select * from blog
+        <where>
+            <if test="bloggerid != null">
+                and bloggerid = #{bloggerid}
+            </if>
+            <if test="id != null">
+                and id &gt; #{id}
+            </if>
+        </where>
+          order by id asc limit 1
+    </select>
+
+
+    <!--设置回复数-->
+    <update id="setReplyHit">
+       UPDATE blog b set replyHit = (SELECT count(*) from comment o where b.id = o.blogId )
+    </update>
+
+    <!--查询热度最高的两条-->
+    <select id="findHotest" resultMap="BlogResult">
+        select * from blog
+        <where>
+            <if test="bloggerid != null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+        order by clickHit desc limit 2;
+    </select>
+
+    <select id="getClickTotal" resultType="long">
+        SELECT sum(clickHit) FROM blog
+        <where>
+            <if test="bloggerid != null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+    </select>
+</mapper>

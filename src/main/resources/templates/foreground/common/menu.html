@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+
+<!-- Header Area Start -->
+<section class="rapid-header-area ">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="site-logo">
+                    <a href="index.html">
+                        <img th:src="@{/assets/img/site-logo.png}" alt="site logo"/>
+                    </a>
+                    <p>只有十分努力,才能看起来毫不费力👍</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Header Area End -->
+
+
+<!-- Mainmenu Area Start -->
+<section class="rapid-mainmenu-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-12 col-md-9 col-sm-9">
+                        <!-- Responsive Menu -->
+                        <div class="rapid-responsive-menu"></div>
+                        <!-- Responsive Menu -->
+                        <div class="mainmenu">
+                            <nav>
+<!--                                font-family: -->
+                                <ul id="rapid_navigation" >
+                                    <li><a style="font-size: 16px" th:href="@{/index}"><strong>首页</strong></a></li>
+                                    <li ><a th:if="${application.blogger != null }" style="font-size: 16px" th:href="@{/aboutMe(bid=${bid})}">关于博主</a></li>
+                                    <li>
+                                        <a style="font-size: 16px" th:href="@{/toBlogType(bid=${bid})}">博客类别</a>
+                                        <ul>
+                                            <li th:each="type : ${application.blogTypeList}">
+                                                <a  th:href="@{/getByBlogType(typeId=${type.id},bid=${bid})}">[[${type.typeName}]]</a>
+                                            </li>
+                                        </ul>
+
+
+                                    </li>
+                                    <li>
+                                        <a style="font-size: 16px" th:href="@{/link/toLink(bid=${bid})}">友情链接</a>
+                                    </li>
+
+                                    <li style="font-size: 16px" shiro:hasPermission="blogger"><a th:href="@{/toLogin}">后台登陆</a></li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-sm-3">
+                        <div class="rapid-search-bar">
+                            <form th:action="@{/search}" method="post">
+                                <input placeholder="Search..." type="search" id="q" name="q">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Mainmenu Area End -->
+</body>
+</html>

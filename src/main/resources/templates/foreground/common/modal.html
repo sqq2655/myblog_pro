@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--登陆框-->
+<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    开始登陆
+                </h4>
+            </div>
+            <div class="modal-body">
+               <form method="post" id="loginForm">
+                   <div class="form-group">
+                       <label for="u"><i class="fa fa-user"></i>用户名</label>
+                       <input type="text" name="userName"
+                              class="form-control" id="u">
+                   </div>
+
+                   <div class="form-group">
+                       <label for="p"><i class="fa fa-unlock-alt"></i>密码</label>
+                       <input type="password" name="password"
+                              class="form-control" id="p" >
+                   </div>
+
+                   <div class="modal-footer">
+                       <span class="text-danger" id="errorMsg" th:text="${errorMsg}"></span>
+                       <button type="button" onclick="resetLogin()" class="btn btn-default" data-dismiss="modal">关闭
+                       </button>
+                       <button type="button" onclick="loginUser()" class="btn btn-primary">
+                           登陆
+                       </button>
+                   </div>
+               </form>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+
+
+
+<!--注册框-->
+<div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel2">
+                    开始注册
+                </h4>
+            </div>
+            <div class="modal-body">
+                <form role="form" id="regForm"  method="post">
+                    <div class="form-group">
+                        <label for="userName"><i class="fa fa-user"></i>用户名</label>
+                        <input type="text" name="userName"
+                               class="form-control" id="userName">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password"><i class="fa fa-unlock-alt"></i>密码</label>
+                        <input type="password" name="password"
+                               class="form-control" id="password" >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="passwordConfirm"><i class="fa fa-unlock-alt"></i>确认密码</label>
+                        <input type="password" name="passwordConfirm"
+                               class="form-control" id="passwordConfirm" >
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="flag" id="optionsRadios1" value="1" checked> <strong>博主</strong>
+                        </label>
+
+                        <label>
+                        <input type="radio" name="flag" id="optionsRadios2" value="2"> <strong>普通用户</strong>
+                        </label>
+                    </div>
+
+
+                    <div class="modal-footer">
+                        <span class="text-danger"  id="msg"></span>
+                        <button onclick="resetReg()" type="button" class="btn btn-default" data-dismiss="modal">关闭
+                        </button>
+                        <button type="button" onclick="regUser()" class="btn btn-success">
+                            注册
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+
+<script th:inline="javascript" type="text/javascript">
+    var ctx = /*[[@{/}]]*/ '';
+    function resetLogin() {
+        $("#u").val('');
+        $("#p").val('');
+        $("#errorMsg").val('');
+    }
+
+    function resetReg() {
+        $("#userName").val('');
+        $("#password").val('');
+        $("#passwordConfirm").val('');
+        $("#msg").val('');
+    }
+    
+    function loginUser() {
+        var userName = $("#u").val();
+        var password = $("#p").val();
+        if (userName == null || userName == "") {
+            $("#errorMsg").html("用户名不能为空");
+            return;
+        }
+        if (password == null || password == "") {
+            $("#errorMsg").html("密码不能为空");
+            return;
+        }
+       $.post(ctx+"doAjaxLogin",$("#loginForm").serialize(),function (obj) {
+           if(obj){
+                alert('登陆成功');
+                resetLogin();
+                window.location.reload();
+           }else{
+               alert('用户名或密码错误！');
+           }
+           $("#loginModal").modal('hide');
+       })
+    }
+    
+    function regUser() {
+        var userName = $("#userName").val();
+        var password = $("#password").val();
+        var passwordConfirm = $("#passwordConfirm").val();
+
+        if(userName == '' || userName==null){
+            $("#msg").html('用户名不能为空');
+            return;
+        }
+        if(password == '' || password == null){
+            $("#msg").html('密码不能为空');
+            return;
+        }
+        if(passwordConfirm == '' || passwordConfirm == null){
+            $("#msg").html('确认密码不能为空');
+            return;
+        }
+        if(password !== passwordConfirm){
+            $("#msg").html('两次密码不一致');
+            return;
+        }
+        var regex = new RegExp('[a-z0-9A-Z]{6,16}');
+        if(!regex.test(password)){
+            $("#msg").html('密码应为6-16位的字母或数字');
+            return;
+        }
+        $.post(ctx+"register",$("#regForm").serialize(),function (obj) {
+            if(obj){
+                alert("注册成功");
+                resetReg();
+
+            }else{
+                alert("注册失败");
+            }
+            $("#regModal").modal('hide');
+        })
+    }
+
+</script>
+</body>
+</html>

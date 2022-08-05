@@ -1,0 +1,1120 @@
+﻿
+/*
+*******************************************
+*******************************************
+更多精品模板请访问：http://www.bootstrapmb.com
+Template Name: Rapid - A Responsive WordPress Blog Theme
+Author: Hassan Rasu
+Version: 1.0
+Template By: Wp-Themescare
+
+* This file contains the styling for the actual theme, this
+is the file you need to edit to change the look of the
+theme.
+
+This files contents are outlined below >>>>
+
+*** SEARCH EACH SECTION AS IT COMMENTS, YOU WILL GET THE RIGHT SECTION.
+
+*******************************************
+*******************************************
+
+==== CSS INDEX
+
+01 - IMPORTED CSS
+02 - DEFAULT CSS
+03 - PAGINATION CSS
+04 - BREADCROMB CSS
+05 - REPONSIVE MENU CSS
+06 - BTN TO TOP CSS
+07 - HEADER AREA CSS
+08 - POST SLIDER AREA CSS
+09 - ALL POST AREA CSS
+10 - SIDEBAR WIDGET CSS
+11 - FOOTER CSS
+12 - PAGE CSS
+13 - CONTACT PAGE CSS
+14 - SINGLE POST PAGE CSS
+15 - 404 PAGE CSS
+
+
+*/
+
+
+
+/*================================================
+01 - IMPORTED CSS
+==================================================*/
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,400i,600,600i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu:400,400i,500,500i,700,700i');
+@import url('https://fonts.googleapis.com/css?family=Play:400,700');
+
+/*================================================
+02 - DEFAULT CSS
+==================================================*/ 
+
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 14px;
+    line-height: 26px;
+    color: #303030;
+    font-weight: 400
+}
+html,body { 
+    height: 100%;
+}
+img {
+    max-width: 100%;
+    height: auto
+}
+.rapid-btn{
+    background: #3ac6b6 none repeat scroll 0 0;
+    color: #fff;
+    font-weight: 600;
+    font-family: "Play",sans-serif;
+    text-transform: uppercase;
+    display: inline-block;
+    padding: 7px 10px
+}
+.rapid-btn:hover{
+    background: #212121 none repeat scroll 0 0;
+    color: #fff
+}
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+a{
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    color: inherit
+}
+a:focus {
+    text-decoration: none;
+    outline: medium none;
+    color: inherit
+}
+a:hover {
+    color: inherit;
+    text-decoration: none;
+    color: inherit
+}
+ul, ol {
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style-type: none;
+}
+.section_100 {
+    padding: 100px 0;
+}
+.section_50 {
+    padding: 50px 0;
+}
+.section_15{
+    padding: 15px 0
+}
+.pad-right{
+    padding-right: 0
+}
+.section_t_100{
+    padding-top: 100px
+}
+.section_b_70{
+    padding-bottom: 70px
+}
+
+/*================================================
+03 - PAGINATION CSS
+==================================================*/
+
+.pagination {
+    margin: 50px 0 0;
+}
+.pagination > li {
+    display: inline-block;
+    margin: 0 2px;
+}
+.pagination_box {
+    text-align: center;
+}
+.pagination a {
+    color: #555 !important;
+    border: 1px solid #333  !important
+}
+.pagination .active > a, .pagination a:hover {
+    background: #3ac6b6  none repeat scroll 0 0 !important;
+    border: 1px solid #3ac6b6  !important;
+    color: #fff !important
+}
+
+
+/*================================================
+04 - BREADCROMB CSS
+==================================================*/
+
+.rapid-breadcromb-area {
+    background: url(../img/breadcromb.jpg) no-repeat scroll 0 0/cover;
+    text-align: center;
+    position: relative;
+    z-index: 11
+}
+.rapid-breadcromb-area:before {
+    background: #000 none repeat scroll 0 0;
+    content: "\"";
+    height: 100%;
+    left: 0;
+    opacity: 0.45;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=45)";
+    position: absolute;
+    top: 0;
+    width: 100%;
+    z-index: -1;
+}
+.breadcromb > h3 {
+    color: #fff;
+    font-family: "Play",sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+.breadcromb ul {
+    margin-top: 10px;
+}
+.breadcromb ul li {
+    color: #ffffff;
+    display: inline-block;
+    font-family: "Play",sans-serif;
+    font-weight: 600;
+    margin: 0 5px;
+    text-transform: capitalize;
+    font-size: 15px
+}
+.breadcromb ul li a {
+    font-weight: 600;
+    color: #3ac6b6
+}
+.breadcromb ul li a:hover{
+    color: #fff
+}
+
+/*================================================
+05 - REPONSIVE MENU CSS
+==================================================*/
+.rapid-responsive-menu{
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 0px;
+    width: 100%;
+    z-index: 999;
+}
+.slicknav_nav a{
+    font-size: 16px;
+    margin: 0;
+    text-transform: capitalize;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    color: #000
+}
+.slicknav_menu {
+    background: transparent;
+}
+.slicknav_menutxt {
+    display: none !important;
+}
+.slicknav_arrow {
+    float: right;
+    color: #000
+}
+.slicknav_nav a:hover{
+    border-radius: 0;
+}
+.slicknav_nav .slicknav_row:hover{
+    border-radius: 0
+}
+.slicknav_nav a:hover, .slicknav_nav .slicknav_row:hover {
+    background: #3ac6b6   none repeat scroll 0 0;
+    color: #fff
+}
+.slicknav_nav li {
+    border-bottom: 1px solid #aaa;
+}
+.slicknav_nav li:last-child{
+    border-bottom: 0px solid #aaa
+}
+.slicknav_nav {
+    background: #fff none repeat scroll 0 0;
+    border-top: 1px solid #3ac6b6  ;
+    box-shadow: 0 0 8px rgba(34, 30, 31, 0.3);
+}
+.slicknav_btn{
+    background-color: transparent !important;
+    float: left;
+    margin: 0;
+    line-height: 0;
+}
+.slicknav_menu .slicknav_icon {
+    float: none !important;
+    margin: 0
+}
+.slicknav_icon-bar {
+    height: 3px !important;
+    margin: 5px 0;
+    width: 30px !important;
+}
+.slicknav_menu .slicknav_icon-bar {
+    background-color: #333 ;
+}
+
+/*================================================
+06 - BTN TO TOP CSS
+==================================================*/
+
+
+.btntoTop:before {
+    color: #fff;
+    content: "";
+    display: inline-block;
+    font: 20px "FontAwesome";
+    vertical-align: middle;
+}
+.btntoTop {
+    background-color: #585858;
+    border: 2px solid #585858;
+    border-radius: 2px;
+    bottom: 30px;
+    cursor: pointer;
+    height: 44px;
+    line-height: 36px;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    position: fixed;
+    right: 30px;
+    text-align: center;
+    -webkit-transition: opacity 0.4s ease 0s;
+    transition: opacity 0.4s ease 0s;
+    width: 44px;
+    z-index: 99999;
+}
+.btntoTop.active {
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s
+}
+.btntoTop.active:hover {
+    background: #3ac6b6 none repeat scroll 0 0;
+    border: 2px solid #3ac6b6 ;
+    opacity: 0.8;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+}
+.btntoTop.active.btntoTop:hover:before {
+    color: #fff;
+}
+
+
+/*================================================
+07 - HEADER AREA CSS
+==================================================*/
+
+.rapid-header-area {
+    padding: 25px 0;
+}
+.site-logo {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+}
+.site-logo {
+    text-align: center;
+}
+.site-logo > p {
+    color: #666;
+    font-weight: 500;
+    position: relative;
+    text-transform: capitalize;
+}
+.site-logo > p:after {
+    background: #222 none repeat scroll 0 0;
+    content: "";
+    height: 2px;
+    left: 45%;
+    position: absolute;
+    top: 35px;
+    width: 10%;
+}
+.rapid-mainmenu-area {
+    border-bottom: 1px solid #eee;
+    border-top: 1px solid #eee;
+}
+.mainmenu ul {
+    text-align: left;
+}
+.mainmenu li {
+    display: inline-block;
+    position: relative
+}
+.mainmenu ul li:hover > a {
+    color: #3ac6b6;
+}
+.mainmenu ul li a {
+    display: block;
+    padding:  15px;
+    text-transform: uppercase;
+    font-weight: 500;
+    font-family: 'Ubuntu', sans-serif;
+}
+.mainmenu ul li a:hover, .mainmenu li.current-page-item > a{
+    color: #3ac6b6
+}
+.mainmenu ul li ul{
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: #fefefe none repeat scroll 0 0;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    width: 200px;
+    -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+    -webkit-transform-origin: top;
+            transform-origin: top;
+    opacity: 0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    z-index: -99;
+    visibility: visible;
+    box-shadow: 0px 2px  4px #aaa
+}
+.mainmenu ul li ul li{
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+.mainmenu ul li ul li:last-child{
+    border-bottom: 0px solid #ddd;
+}
+.mainmenu ul li ul li a{
+    display: block;
+    padding: 7px 14px;
+    color: #333
+}
+.mainmenu ul li ul li a:hover{
+    background: #eee none repeat scroll 0 0
+}
+.mainmenu ul li:hover ul{
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+    visibility: visible;
+    opacity: 1;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+    z-index: 999
+}
+.rapid-search-bar form {
+    position: relative;
+    z-index: 9;
+}
+.rapid-search-bar:after {
+    position: absolute;
+    right: 15px;
+    top: 5px;
+    z-index: 1;
+}
+.rapid-search-bar {
+    margin-top: 7px;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    z-index: 999
+}
+.rapid-search-bar:after {
+    font-family: fontawesome;
+    content: "\f002";
+}
+.rapid-search-bar input[type="search"] {
+    border: medium none;
+    cursor: pointer;
+    height: 40px;
+    padding: 5px 15px;
+    text-indent: -9999px;
+    -webkit-transition: all 0.2s ease 0s;
+    transition: all 0.2s ease 0s;
+    width: 40px;
+    background: none;
+    color: #1c1c1c;
+    font-family: "Philosopher",sans-serif;
+    font-weight: 400;
+}
+.rapid-search-bar input[type="search"]:focus {
+    border: 1px solid #ddd;
+    text-indent: 0;
+    width: 200px;
+    background: #fff;
+    cursor: text
+}
+
+/*================================================
+08 - POST SLIDER AREA CSS
+==================================================*/
+
+.rapid-slider-post-area {
+    margin-top: 10px;
+}
+.post-slider-content {
+    background: rgba(0, 0, 0, 0) -webkit-linear-gradient(rgba(0, 0, 0, 0), #000) repeat scroll 0 0;
+    background: rgba(0, 0, 0, 0) linear-gradient(rgba(0, 0, 0, 0), #000) repeat scroll 0 0;
+    bottom: 0;
+    left: 0;
+    padding: 20px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    color: #fff
+}
+.category-links > a {
+    background: #3ac6b6 none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    padding: 5px;
+    text-transform: uppercase;
+}
+.post-slider-content > h2 {
+    font-family: "Play",sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    margin: 5px 0;
+    text-transform: capitalize;
+    color: #fff
+}
+.post-slider-content > h2 a:hover{
+    color: #3ac6b6;
+}
+.post-meta ul li {
+    display: inline-block;
+    font-size: 12px;
+    position: relative;
+}
+.post-meta  ul li:after {
+    content: "/";
+    display: inline-block;
+    margin-left: 6px;
+    margin-right: 2px;
+}
+.post-meta  ul li:last-child:after {
+    display: none;
+}
+.post-meta  ul li a:hover{
+    color: #3ac6b6;
+}
+.post-slider .owl-prev {
+    background: rgba(255, 255, 255, 0.72) none repeat scroll 0 0;
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    width: 40px;
+    left: 10px;
+    visibility: hidden;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    border-radius: 50%
+}
+.post-slider .owl-next {
+    background: rgba(255, 255, 255, 0.72) none repeat scroll 0 0;
+    font-size: 20px;
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    text-align: center;
+    top: 40%;
+    width: 40px;
+    right: 10px;
+    visibility: hidden;
+    -webkit-transform: scale(0);
+            transform: scale(0);
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+    border-radius: 50%
+}
+.post-slider:hover .owl-next, .post-slider:hover .owl-prev{
+    visibility: visible;
+    -webkit-transform: scale(1);
+            transform: scale(1)
+}
+.post-slider .owl-next:hover, .post-slider .owl-prev:hover{
+    background: #3ac6b6 none repeat scroll 0 0;
+    color: #fff
+}
+
+
+/*================================================
+09 - ALL POST AREA CSS
+==================================================*/
+
+.blog-text > h2 {
+    font-family: "Play",sans-serif;
+    font-size: 22px;
+    font-weight: 400;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    text-transform: capitalize;
+}
+.blog-text > h2 > a:hover{
+    color: #3ac6b6
+}
+.blog-text {
+    box-shadow: 0 0 6px #aaa;
+    padding: 20px;
+}
+.share-button-social a:hover{
+    color: #3ac6b6
+}
+.blog-meta ul li:after{
+    content: "/";
+    display: inline-block;
+    margin-left: 6px;
+    margin-right: 2px;
+}
+.blog-meta ul li {
+    display: inline-block;
+    position: relative;
+    text-transform: capitalize;
+    font-weight: 500
+}
+.blog-meta ul li a:hover {
+    color: #3ac6b6;
+}
+.blog-meta ul li:last-child:after {
+    display: none;
+}
+.blog-meta > ul {
+    margin-bottom: 10px;
+}
+.single-blog {
+    margin-bottom: 30px;
+}
+.single-blog:last-child{
+    margin-bottom: 0px
+}
+.share-button-social {
+    float: right;
+}
+.post-content {
+    margin-bottom: 20px;
+}
+.share-button-social > a {
+    margin: 0 5px;
+}
+.blog-image > p {
+    background: #3ac6b6 none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    font-weight: 600;
+    left: 0;
+    padding: 5px 15px;
+    position: absolute;
+    text-transform: capitalize;
+    top: 0;
+}
+.blog-image {
+    overflow: hidden;
+}
+.blog-image img{
+    width: 100%;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s
+}
+.blog-image:hover img{
+    -webkit-transform: scale(1.06);
+            transform: scale(1.06)
+}
+
+/*================================================
+10 - SIDEBAR WIDGET CSS
+==================================================*/
+
+.about-us-widget {
+    text-align: center;
+}
+.about-widget-image img {
+    border-radius: 50%;
+}
+.about-widget-text {
+    margin-top: 15px;
+}
+.about-widget-text > h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+.social_links > li {
+    display: inline-block;
+}
+.social_links {
+    text-align: center;
+}
+.blog-sidebar-widget {
+    margin-bottom: 30px;
+}
+.blog-sidebar-widget:last-child {
+    margin-bottom: 0px;
+}
+.social_links a {
+    border: 1px solid #ddd;
+    color: #444;
+    display: block;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    width: 35px;
+}
+.social_links a:hover{
+    background: #3ac6b6 none repeat scroll 0 0;
+    color: #fff;
+    border: 1px solid #3ac6b6
+}
+.blog-sidebar-widget > h3:before {
+    background: #3ac6b6 none repeat scroll 0 0;
+    content: "";
+    height: 2px;
+    left: 0;
+    position: absolute;
+    top: 100%;
+    width: 80px;
+}
+.blog-sidebar-widget > h3{
+    color: #333;
+    font-size: 20px;
+    line-height: 30px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    padding-left: 20px;
+    position: relative;
+    text-transform: capitalize;
+    font-weight: 600
+}
+.blog-sidebar-widget input {
+    border: medium none;
+    color: #333;
+    padding: 5px 10px;
+    width: 80%;
+    height: 35px;
+}
+.blog-sidebar-widget button {
+    background: #3ac6b6 none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    height: 35px;
+    width: 18%;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s
+}
+.blog-sidebar-widget button:hover{
+    background: #212121 none repeat scroll 0 0
+}
+.blog-sidebar-widget > form {
+    background: #eee none repeat scroll 0 0;
+    padding: 20px;
+}
+.blog-sidebar-widget ul.blog-categories > li{
+    border-bottom: 1px solid #ededed;
+}
+.blog-sidebar-widget ul.blog-categories > li:last-child{
+    border-bottom: 0px solid #ededed;
+}
+.blog-sidebar-widget ul.blog-categories > li a {
+    color: #333;
+    display: block;
+    font-size: 14px;
+    line-height: 26px;
+    padding: 5px 10px;
+    text-transform: capitalize;
+}
+.blog-sidebar-widget ul.blog-categories > li a:hover{
+    color: #3ac6b6
+}
+.blog-thumb-info-image {
+    float: left;
+    width: 90px;
+    height: 66px;
+}
+.blog-thumb-info-content {
+    float: left;
+    padding-left: 15px;
+    width: calc(100% - 90px);
+}
+.blog-sidebar-widget ul.featured-list > li {
+    border-bottom: 1px solid #ddd;
+    clear: both;
+    display: block;
+    overflow: hidden;
+    padding: 10px 0;
+}
+.blog-sidebar-widget ul.featured-list > li:last-child{
+    border-bottom: 0px solid #ddd
+}
+.blog-thumb-info-image img {
+    background: #eee none repeat scroll 0 0;
+    padding: 5px;
+}
+.blog-thumb-info-content h4 {
+    color: #000;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-transform: capitalize;
+}
+.blog-thumb-info-content h4 > a:hover, .blog-thumb-info-content > p > a:hover{
+    color: #3ac6b6
+}
+
+.single-post-text .post-cat {
+    margin-top: 20px;
+}
+.post-cat > p {
+    color: #3ac6b6;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.blog-thumb-info-content > p > a {
+    margin-left: 5px;
+}
+.blog-sidebar-widget ul.blog-tags > li {
+    display: inline-block;
+    margin: 2px;
+}
+.blog-sidebar-widget ul.blog-tags > li a {
+    border: 1px solid #ddd;
+    display: block;
+    padding: 3px 5px;
+    text-transform: capitalize;
+    color: #333
+}
+.blog-sidebar-widget ul.blog-tags > li a:hover{
+    background: #3ac6b6 none repeat scroll 0 0;
+    color: #fff;
+    border: 1px solid #3ac6b6;
+}
+.blog-sidebar-widget ul.instagram > li {
+    display: inline-block;
+    margin: 2px;
+    width: 22%;
+}
+
+/*================================================
+11 - FOOTER CSS
+==================================================*/
+
+.rapid-footer-area {
+    background: #212121 none repeat scroll 0 0;
+    color: #707070;
+    padding: 50px 0;
+    text-transform: capitalize;
+    text-align: center
+}
+
+/*================================================
+12 - PAGE CSS
+==================================================*/
+
+.page-content {
+    text-align: center;
+}
+.page-content h1,h2,h3,h4,h5,h6 {
+    color: #333;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: capitalize;
+}
+.page-content > p {
+    margin: 0 0 10px;
+}
+.page-content > img {
+    background: #eee none repeat scroll 0 0;
+    margin: 20px 0;
+    padding: 30px;
+    width: 100%;
+}
+.page-content blockquote {
+    background: #eee none repeat scroll 0 0;
+    border-left: 5px solid #3ac6b6;
+    color: #444;
+    font-family: 'Ubuntu', sans-serif;
+    font-style: italic;
+    margin: 20px 0;
+    padding: 20px;
+    text-align: left;
+}
+
+/*================================================
+13 - CONTACT PAGE CSS
+==================================================*/
+
+.page-content > form {
+    background: #eee none repeat scroll 0 0;
+    padding: 20px;
+    margin-top: 30px;
+    text-align: left
+}
+.page-content form p label {
+    color: #000;
+    display: block;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.page-content form p input {
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 5px 10px;
+    width: 100%;
+}
+.page-content form p textarea{
+    width: 100%;
+    border: 1px solid #ddd;
+    color: #333;
+    padding: 5px 10px;
+    height: 120px
+}
+.page-content form p input[type="submit"] {
+    background: #3ac6b6 none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    font-family: "Play",sans-serif;
+    font-weight: 600;
+    margin-top: 10px;
+    text-transform: uppercase;
+    width: auto;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s
+}
+.page-content form p input[type="submit"]:hover{
+    background: #212121 none repeat scroll 0 0
+}
+.page-content form p {
+    margin-bottom: 10px;
+}
+
+/*================================================
+14 - SINGLE POST PAGE CSS
+==================================================*/
+
+.blog-text.single-post-text {
+    box-shadow: 0 0 0;
+    padding: 0;
+}
+.post-content > p {
+    margin: 0 0 10px;
+}
+.post-content blockquote {
+    background: #eee none repeat scroll 0 0;
+    border-left: 5px solid #3ac6b6;
+    color: #444;
+    font-family: "Ubuntu",sans-serif;
+    font-style: italic;
+    margin: 20px 0;
+    padding: 20px;
+    text-align: left;
+}
+.blog-image iframe {
+    height: 350px;
+    width: 100%;
+}
+.blog-image iframe.video-lg {
+    border: medium none;
+    height: 480px !important;
+    width: 100%;
+}
+.single-post-btm-tag {
+    border-bottom: 1px solid #f3f3f3;
+    border-top: 1px solid #f3f3f3;
+    margin-top: 30px;
+    padding: 15px 20px;
+}
+.btm-tag-left > ul {
+    display: inline-block;
+}
+.btm-tag-left li {
+    display: inline-block;
+    margin: 0 5px
+}
+.btm-tag-left ul li a {
+    display: block;
+    text-transform: capitalize;
+}
+.btm-tag-left ul li a:hover{
+    color: #3ac6b6
+}
+.no-pad-right{
+    padding-right: 0
+}
+.no-pad-left{
+    padding-left: 0
+}
+.author-bio {
+    margin-top: 30px;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ddd
+}
+.author-bio img {
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+.author-info > ul {
+    margin-top: 15px;
+    text-align: center;
+}
+.author-info ul li {
+    display: inline-block;
+    margin: 0 6px;
+}
+.rapid-comment-list {
+    margin-top: 50px;
+}
+.comment-group-title > h2 {
+    font-size: 25px;
+    text-align: center;
+}
+.single-comment-item {
+    margin-top: 30px;
+}
+.single-comment-box {
+    margin-bottom: 10px;
+    padding: 0 10px 30px;
+    position: relative;
+    -webkit-transition: all 300ms ease 0s;
+    transition: all 300ms ease 0s;
+}
+.main-comment {
+    font-size: 14px;
+    padding: 30px 0 0 100px;
+    position: relative;
+}
+.author-image {
+    border-radius: 50%;
+    left: 0;
+    margin-bottom: 20px;
+    position: absolute;
+    top: 30px;
+}
+.author-image img {
+    border-radius: 50%;
+    display: block;
+}
+.comment-info {
+    margin-bottom: 10px;
+}
+.comment-info h4 {
+    color: #333;
+    font-size: 17px;
+    text-transform: capitalize;
+    margin-bottom: 0
+}
+.comment-info > p {
+    color: #777;
+    font-weight: 500;
+    text-transform: capitalize;
+}
+.reply {
+    color: #555;
+    display: inline-block;
+    font-size: 14px;
+    font-style: italic;
+    font-weight: 400;
+    margin-top: 5px;
+    text-decoration: underline;
+    text-transform: capitalize;
+}
+.single-comment-box.reply-comment {
+    margin-left: 100px;
+}
+.rapid-leave-comment {
+    margin-top: 40px;
+}
+.comment-group-title > h2, .rapid-leave-comment > h2 {
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 5px;
+    text-align: center;
+    text-transform: capitalize;
+}
+.rapid-leave-comment > p {
+    text-align: center;
+}
+.rapid-leave-comment > form {
+    margin-top: 20px;
+}
+.rapid-leave-comment input[type="text"], .rapid-leave-comment input[type="email"] {
+    background: transparent none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #333;
+    height: 45px;
+    margin-bottom: 20px;
+    margin-right: 20px;
+    margin-top: 0;
+    padding: 10px 15px;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    width: 45%;
+}
+.rapid-leave-comment textarea {
+    background: transparent none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    color: #333;
+    height: 160px;
+    margin-bottom: 20px;
+    padding: 5px 15px;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    width: 93%;
+}
+.rapid-leave-comment input[type="button"] {
+    background: #3ac6b6 none repeat scroll 0 0;
+    border: medium none;
+    color: #fff;
+    font-family: "Play",sans-serif;
+    font-weight: 600;
+    margin-top: 10px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.4s ease 0s;
+    transition: all 0.4s ease 0s;
+    width: auto;
+    padding: 7px 10px
+}
+.rapid-leave-comment input[type="button"]:hover{
+    background: #212121 none repeat scroll 0 0
+}
+.rapid-leave-comment input[type="email"] {
+    margin-right: 0;
+}
+
+/*================================================
+15 - 404 PAGE CSS
+==================================================*/ 
+
+.notfound-box {
+    text-align: center;
+}
+.notfound-box h2 {
+    color: #333;
+    font-family: "Play",sans-serif;
+    font-size: 120px;
+    font-weight: 600;
+}
+.notfound-box > p {
+    font-size: 17px;
+    font-weight: 500;
+    margin-bottom: 20px;
+    text-transform: capitalize;
+}

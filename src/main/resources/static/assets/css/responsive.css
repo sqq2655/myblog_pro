@@ -1,0 +1,180 @@
+/* Medium Layout: 1280px. */
+@media only screen and (min-width: 992px) and (max-width: 1200px) { 
+
+
+    
+}
+/* Tablet Layout: 768px. */
+@media only screen and (min-width: 768px) and (max-width: 991px) { 
+
+    .share-button-social{
+        margin-top: 15px
+    }
+    .margin-top{
+        margin-top: 50px
+    }
+    .no-pad-right{
+        padding-right: 15px
+    }
+    .no-pad-left{
+        padding-left: 15px
+    }
+    .btm-tag-left{
+        text-align: center
+    }
+    .share-button-social.btm-tag-right{
+        float: none;
+        text-align: center
+    }
+    .rapid-search-bar::after{
+        right: 15px
+    }
+    .rapid-search-bar{
+        right: 30px
+    }
+    .blog-sidebar-widget ul.instagram > li{
+        width: 10%
+    }
+    
+}
+/* Mobile Layout: 320px. */
+@media only screen and (max-width: 767px) { 
+
+    .rapid-mainmenu-area{
+        min-height: 60px
+    }
+    .rapid-responsive-menu{
+        display: block
+    }
+    .mainmenu{
+        display: none
+    }
+    .share-button-social{
+        margin-top: 5px
+    }
+    .margin-top{
+        margin-top: 50px
+    }
+    .page-content > img{
+        padding: 15px
+    }
+    .breadcromb > h3{
+        font-size: 22px
+    }
+    .no-pad-right{
+        padding-right: 15px
+    }
+    .no-pad-left{
+        padding-left: 15px;
+        text-align: center;
+    }
+    .share-button-social.btm-tag-right{
+        text-align: center;
+        float: none
+    }
+    .single-comment-box{
+        padding: 0
+    }
+    .main-comment{
+        padding: 20px
+    }
+    .author-image{
+        position: inherit;
+        top: auto
+    }
+    .single-comment-box.reply-comment{
+        margin-left: 35px
+    }
+    .rapid-leave-comment input[type="text"], .rapid-leave-comment input[type="email"]{
+        width: 100%
+    }
+    .rapid-leave-comment textarea{
+        width: 100%
+    }
+    .blog-text.single-post-text{
+        padding: 10px
+    }
+    .blog-image iframe.video-lg{
+        height: 165px !important;
+        border: 1px solid #ddd
+    }
+    .notfound-box > p{
+        font-size: 15px
+    }
+    .notfound-box h2{
+        font-size: 80px
+    }
+    
+}
+/* Wide Mobile Layout: 480px. */
+@media only screen and (min-width: 480px) and (max-width: 767px) { 
+
+    .rapid-mainmenu-area{
+        min-height: 60px
+    }
+    .rapid-responsive-menu{
+        display: block
+    }
+    .mainmenu{
+        display: none
+    }
+    .share-button-social{
+        margin-top: 5px
+    }
+    .margin-top{
+        margin-top: 50px
+    }
+    .page-content > img{
+        padding: 15px
+    }
+    .breadcromb > h3{
+        font-size: 22px
+    }
+    .no-pad-right{
+        padding-right: 15px
+    }
+    .no-pad-left{
+        padding-left: 15px;
+        text-align: center;
+    }
+    .share-button-social.btm-tag-right{
+        text-align: center;
+        float: none
+    }
+    .single-comment-box{
+        padding: 0
+    }
+    .main-comment{
+        padding: 20px
+    }
+    .author-image{
+        position: inherit;
+        top: auto
+    }
+    .single-comment-box.reply-comment{
+        margin-left: 35px
+    }
+    .rapid-leave-comment input[type="text"], .rapid-leave-comment input[type="email"]{
+        width: 100%
+    }
+    .rapid-leave-comment textarea{
+        width: 100%
+    }
+    .blog-text.single-post-text{
+        padding: 10px
+    }
+    .blog-image iframe.video-lg{
+        height: 165px !important;
+        border: 1px solid #ddd
+    }
+    .notfound-box > p{
+        font-size: 15px
+    }
+    .notfound-box h2{
+        font-size: 80px
+    }
+    .blog-sidebar-widget ul.instagram > li{
+        width: 12%
+    }
+
+}

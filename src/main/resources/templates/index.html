@@ -1,0 +1,259 @@
+﻿<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Title -->
+    <title>My Blog</title>
+    <!-- Favicon -->
+    <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/bootstrap.min.css}">
+    <!-- Font awesome CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/font-awesome.min.css}">
+    <!-- Animate CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/animate.min.css}">
+    <!-- OwlCarousel CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/owl.carousel.css}">
+    <!-- SlickNav CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/slicknav.min.css}">
+    <!-- Magnific popup CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/magnific-popup.css}">
+    <!-- Main CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/style.css}">
+    <!-- Responsive CSS -->
+    <link rel="stylesheet" th:href="@{/assets/css/responsive.css}">
+</head>
+<style>
+    body {
+        margin: 0px;
+        padding: 0px;
+        /*background: linear-gradient(125deg, #66a8cc, #b8e994) fixed;*/
+        /*background-color: rgba(211,211,211,0.2);*/
+    }
+
+
+</style>
+<body>
+<div class="container-fluid" style="background: #3b4249; opacity: 0.5">
+    <div shiro:authenticated="true" class="row" style="padding: 3px 10px;">
+        <div class="col-xs-offset-1 col-xs-5 col-md-offset-2 col-md-2"><h3 style="color:red"><i class="fa fa-fire"></i> 欢迎 &nbsp; <shiro:principal/></h3></div>
+        <div class="col-md-6 col-xs-5 text-right">
+            <a class="btn btn-info text-success" onclick="logout()">退出登陆</a>
+        </div>
+        <div class="col-md-2 col-xs-1"></div>
+
+    </div>
+    <div shiro:notAuthenticated="true" class="row">
+        <div class="col-md-offset-9 col-xs-offset-8 col-md-3 col-xs-4" style="padding: 3px 10px;">
+            <a class="btn btn-info" th:href="@{/toLogin}">登陆</a>
+            &nbsp;
+            <a class="btn btn-info " data-toggle="modal" data-target="#regModal">注册</a>
+        </div>
+
+    </div>
+</div>
+<div th:insert="/foreground/common/menu.html"></div>
+
+<!-- Slider Post Area Start -->
+<section class="rapid-slider-post-area">
+    <div class="post-slider">
+        <div class="single-post-slide">
+            <img th:src="@{/assets/img/blog-1.jpeg.jpg}" alt="post slider"/>
+
+        </div>
+        <div class="single-post-slide">
+            <img th:src="@{/assets/img/blog-2.jpeg.jpg}" alt="post slider"/>
+
+        </div>
+        <div class="single-post-slide">
+            <img th:src="@{/assets/img/blog-3.jpeg.jpg}" alt="post slider"/>
+        </div>
+    </div>
+</section>
+<!-- Slider Post Area End -->
+
+
+<!-- Allpost Area Start -->
+<section class="rapid-Allpost-area section_50">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+
+                <div th:insert="${mainPage}"></div>
+
+            </div>
+
+            <!--右边信息-->
+            <div class="col-md-3">
+                <div class="blog-page-right margin-top">
+                    <div class="blog-sidebar-widget" >
+                        <div class="about-us-widget" th:if="${application.blogger != null}">
+                            <div class="about-widget-image">
+
+
+                                <a th:if="${application.blogger.imageName == null}" >
+                                    <img th:src="@{/images/avatar0.jpg}" style="width: 150px;height: 150px;"
+                                         alt="about image"/>
+                                </a>
+                                <a th:if="${application.blogger.imageName != null}" >
+                                    <img th:src="@{/avatar/}+${application.blogger.imageName}" style="width: 150px;height: 150px;"
+                                         alt="about image"/>
+                                </a>
+                            </div>
+                            <div class="about-widget-text">
+                                <h3 class="text-success" th:text="${application.blogger?.nickName}"></h3>
+                                <p th:text="${application.blogger?.sign}"></p>
+                            </div>
+                        </div>
+
+                        <div class="about-us-widget" th:if="${application.blogger == null}">
+                            <div class="about-widget-text">
+                               <h2 class="text-success">MyBlog 主页</h2>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="blog-sidebar-widget" >
+                        <ul class="social_links center-block row" >
+                            <li class="col-xs-4 col-md-4"><p style="font-size: 20px"><strong th:text="${blogTotal}"></strong></p>博客</li>
+                            <li class="col-xs-4 col-md-4"><p style="font-size: 20px"><strong th:text="${clickTotal==null?0:clickTotal}"></strong></p>点击</li>
+                            <li class="col-xs-4 col-md-4"><p style="font-size: 20px"><strong th:text="${CommentTotal}"></strong></p>评论</li>
+                        </ul>
+                    </div>
+
+
+<!--                    <div class="blog-sidebar-widget">-->
+<!--                        <ul class="social_links">-->
+<!--                            <li><a onmouseleave="showHeadImage()" href="#" onmouseenter="showElseImage('qq')"><i class="fa fa-qq"></i></a></li>-->
+<!--                            <li><a onmouseleave="showHeadImage()" href="#" onmouseenter="showElseImage('wechat')" ><i class="fa fa-wechat"></i></a></li>-->
+<!--                            <li><a onmouseleave="showHeadImage()" href="#" onmouseenter="showElseImage('weibo')"><i class="fa fa-weibo"></i></a></li>-->
+<!--                            <li><a onmouseleave="showHeadImage()" href="#" onmouseenter="showElseImage('tt')"><i class="fa fa-twitter"></i></a></li>-->
+<!--                        </ul>-->
+<!--                    </div>-->
+
+
+                    <div class="blog-sidebar-widget">
+                        <h3><i class="fa fa-tags"></i>按博客类别</h3>
+                        <ul class="blog-categories">
+                            <li th:each="blogtype : ${application.blogTypeList}"><a
+                                    th:href="@{/index?(typeId=${blogtype.id},bid=${bid})}">[[${blogtype.typeName}]] <span
+                                    class="badge" style="float: right;">[[${blogtype.blogCount}]] </span></a></li>
+                        </ul>
+                    </div>
+                    <div class="blog-sidebar-widget">
+                        <h3><i class="fa fa-calendar"></i> &nbsp;按博客日期</h3>
+                        <ul class="blog-tags">
+                            <li th:each="blog : ${application.blogCountList}"><a
+                                    th:href="@{/index?(releaseDateStr=${blog.releaseDateStr},bid=${bid})}">[[${blog.releaseDateStr}]]
+                                <span class="badge">[[${blog.blogCount}]] </span></a></li>
+                        </ul>
+                    </div>
+                    <div class="blog-sidebar-widget">
+                        <h3><i class="fa fa-sort-amount-desc"></i> 热度排行</h3>
+                        <ul class="featured-list" th:each="b : ${hotestList}">
+
+                            <li class="sidebr-pro-widget">
+                                <div class="blog-thumb-info">
+
+                                    <div class="blog-thumb-info-image">
+                                        <a th:if="${b.blogType.typeImage != null}" th:href="@{/toDetails/}+${b.blogger?.id}+'/'+${b.id}+'.html'">
+                                            <img style="width: 90px;height: 66px" th:src="@{/avatar/}+${b.blogType.typeImage}" alt="proudct" />
+                                        </a>
+                                        <a th:if="${b.blogType.typeImage == null}" th:href="@{/toDetails/}+${b.blogger?.id}+'/'+${b.id}+'.html'">
+                                            <img style="width: 90px;height: 66px" th:src="@{/images/wutu.jpg}" alt="proudct" />
+                                        </a>
+                                    </div>
+
+                                    <div class="blog-thumb-info-content">
+                                        <h4><a th:href="@{/toDetails/}+${b.blogger?.id}+'/'+${b.id}+'.html'">[[${b.title}]]</a></h4>
+                                        <p>发布时间:[[${#dates.format(b.releaseDate,'MM-dd,HH:mm:ss')}]]</p>
+                                        <p><i class="fa fa-eye"></i>&nbsp;[[${b.clickHit}]]&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-commenting-o"></i>&nbsp;[[${b.replyHit}]]</p>
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+
+
+                    <div class="blog-sidebar-widget">
+                        <div class="banner-ads text-center" >
+                            <h2>扫码关注本站</h2>
+                            <div>
+                                <img th:src="@{/images/wechat.png}" class="img-responsive center-block" style="width: 50%; border-radius: 10px;margin-top: 15px">
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<!-- Allpost Area End -->
+
+
+<!-- Footer Area Start -->
+<footer class="rapid-footer-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="footer-left">
+                    <p>Copyright © 2019 SQQ. My Blog X.All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End -->
+
+
+<div th:insert="foreground/common/modal.html"></div>
+
+
+
+<!-- jQuery -->
+<script th:src="@{/assets/js/jquery.min.js}"></script>
+
+<!-- Bootstrap JS -->
+<script th:src="@{/assets/js/bootstrap.min.js}"></script>
+
+<!-- Magnific Popup JS -->
+<script th:src="@{/assets/js/jquery.magnific-popup.min.js}"></script>
+
+<!-- OwlCarousel JS -->
+<script th:src="@{/assets/js/owl.carousel.min.js}"></script>
+
+<!-- SlickNav JS -->
+<script th:src="@{/assets/js/jquery.slicknav.min.js}"></script>
+
+<!-- Custom JS -->
+<script th:src="@{/assets/js/custom.js}"></script>
+
+<script th:src="@{/assets/js/background.js}"></script>
+
+
+<script th:inline="javascript" type="text/javascript">
+    var ctx = /*[[@{/}]]*/ '';
+    function logout() {
+        var e = confirm("你确定要退出登陆吗?");
+        if (e) {
+           $.post(ctx+"logout",function (obj) {
+               if (obj){
+                   alert("登出成功");
+                   location.href=ctx+"index";
+                   // location.reload();
+               }
+           })
+        }
+    }
+
+
+</script>
+</body>
+</html>

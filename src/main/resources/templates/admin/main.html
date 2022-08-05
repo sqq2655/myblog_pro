@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>博客后台管理</title>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/easyui/easyui.css}">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/easyui/icon.css}">
+    <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon"/>
+    <script type="text/javascript"
+            th:src="@{/easyui/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/easyui/jquery.easyui.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/easyui/easyui-lang-zh_CN.js}"></script>
+    <script th:inline="javascript" type="text/javascript">
+        var url;
+        var ctx = /*[[@{/}]]*/ '';
+            function openTab(text, url, iconCls) {
+            if ($("#tabs").tabs("exists", text)) {
+                $("#tabs").tabs("select", text);
+            } else {
+                var content = "<iframe frameborder=0 scrolling='auto' style='width:100%;height:100%'   src="+ctx+"get/"+url+"></iframe>";
+                $("#tabs").tabs("add", {
+                    title: text,
+                    iconCls: iconCls,
+                    closable: true,
+                    content: content
+                });
+            }
+        }
+
+        function openPasswordModifyDialog() {
+            $("#dlg").dialog("open").dialog("setTitle","修改密码");
+            url = ctx + "admin/blogger/modifyPwd?id="+[[${session.current_user.id}]];
+        }
+
+        function modifyPwd() {
+            var password = $("#password").val();
+            var regex = new RegExp('(?=.*[0-9])(?=.*[a-zA-Z]).{6,16}');
+            if(password != null && password != "" && !regex.test(password)){
+                $.messager.alert("系统提示", "您的密码强度度太低(密码中必须包含字母、数字)");
+            }else if($("#form").form("validate")){
+                $("#form").form("submit",{
+                    url:url,
+                    success:function (obj) {
+                        var obj = eval('(' + obj + ')');
+                        if(obj.success){
+                            $.messager.alert("系统提示", "密码修改成功！请重新登陆","info",function () {
+                                location.href=ctx+"admin/system/logout";
+                            });
+                            closeModifyPwdDialog();
+
+                        }
+                        if(obj.err){
+                            $.messager.alert("系统提示", "密码修改失败");
+                            return ;
+                        }
+                        if(obj.oldPwd_err){
+                            $.messager.alert("系统提示", "旧密码错误");
+                            return ;
+                        }
+                    }
+
+                });
+            }
+        }
+
+        function closeModifyPwdDialog() {
+            $("#oldPassword").val('');
+            $("#password").val('');
+            $("#dlg").dialog("close");
+        }
+
+        function refreshSystem() {
+            $.post(ctx + "admin/system/refreshSystem",function (obj) {
+                if (obj) {
+                    $.messager.alert("系统提示", "刷新缓存成功");
+                } else {
+                    $.messager.alert("系统提示", "刷新失败，请稍后再试", "error");
+                }
+            })
+        }
+
+        function logout() {
+            $.messager.confirm("系统提示","你确定要退出吗",function (e) {
+                if(e){
+                    location.href=ctx+"admin/system/logout";
+
+                }
+            })
+        }
+
+    </script>
+</head>
+<body class="easyui-layout">
+<div region="north" style="height: 60px;background-color: #E0ECFF;overflow:hidden">
+    <table style="padding: 5px" width="100%">
+        <tr>
+            <td style="padding-top: 16px" valign="middle" align="left" width="50%">
+                <font size="3">&nbsp;&nbsp;<strong><a th:href="@{/}" class="text-success">返回首页</a>&nbsp;MyBlog后台管理 </strong></font>
+            </td>
+            <td style="padding-top: 16px" valign="middle" align="right" width="50%">
+                <font size="5">欢迎:<strong> <shiro:principal/></strong></font>
+            </td>
+        </tr>
+    </table>
+</div>
+<div region="center">
+    <div class="easyui-tabs" fit="true" border="false" id="tabs">
+        <div title="首页" data-options="iconCls:'icon-home'">
+            <div align="center" style="padding-top: 100px"><font color="red" size="10">欢迎进入MyBlog后台管理</font></div>
+        </div>
+    </div>
+</div>
+<div region="west" style="width: 200px" title="导航菜单" split="true">
+    <div class="easyui-accordion" data-options="fit:true,border:false">
+        <div title="常用操作" data-options="iconCls:'icon-edit'" style="padding:10px;">
+            <a href="javascript:openTab('写博客','writeBlog','icon-writeblog')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-writeblog'" style="width: 150px;">写博客</a>
+            <a href="javascript:openTab('评论审核','commentReview','icon-review')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-review'" style="width: 150px">评论审核</a>
+        </div>
+
+        <div title="博客管理" data-options="iconCls:'icon-bkgl'" style="padding:10px;">
+            <a href="javascript:openTab('博客信息管理','blogManage','icon-bkgl')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-bkgl'" style="width: 150px;">博客信息管理</a>
+        </div>
+        <div title="博客类别管理" data-options="iconCls:'icon-bklb'" style="padding:10px">
+            <a href="javascript:openTab('博客类别管理','blogTypeManage','icon-bklb')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-bklb'" style="width: 150px;">博客类别信息管理</a>
+        </div>
+        <div title="评论管理" data-options="iconCls:'icon-plgl'" style="padding:10px">
+
+            <a href="javascript:openTab('评论信息管理','commentManage','icon-plgl')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-plgl'" style="width: 150px;">评论信息管理</a>
+        </div>
+        <div title="个人信息管理" data-options="iconCls:'icon-grxx'" style="padding:10px">
+            <a href="javascript:openTab('修改个人信息','modifyInfo','icon-grxxxg')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-grxxxg'" style="width: 150px;">修改个人信息</a>
+        </div>
+        <div title="系统管理" data-options="iconCls:'icon-system'" style="padding:10px">
+            <a href="javascript:openTab('友情链接管理','linkManage','icon-link')" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-link'" style="width: 150px">友情链接管理</a>
+            <a href="javascript:openPasswordModifyDialog()" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-modifyPassword'" style="width: 150px;">修改密码</a>
+            <a href="javascript:refreshSystem()" class="easyui-linkbutton"
+               data-options="plain:true,iconCls:'icon-refresh'" style="width: 150px;">刷新系统缓存</a>
+            <a href="javascript:logout()" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-exit'"
+               style="width: 150px;">安全退出</a>
+        </div>
+    </div>
+</div>
+<div region="south" style="height: 25px;padding: 5px" align="center">
+
+</div>
+
+<div id="dlg" class="easyui-dialog" style="width: 400px;height: 200px; padding: 10px 20px;" closed="true"
+     buttons="#dlg-buttons" data-options="modal:true">
+    <form id="form" action="" method="post">
+        <table cellspacing="10px">
+            <tr>
+                <td th:text="用户名+':'"></td>
+                <td><input type="text" id="userName" name="userName" th:value="${session.current_user.userName}"
+                           style="width: 200px" readonly="readonly"/></td>
+            </tr>
+
+            <tr>
+                <td th:text="旧密码+':'"></td>
+                <td><input type="text" id="oldPassword" name="oldPassword" class="easyui-validatebox" required="true"
+                           style="width: 200px"/></td>
+            </tr>
+
+            <tr>
+                <td th:text="新密码+':'"></td>
+                <td><input type="text" id="password" name="password" class="easyui-validatebox" required="true"
+                           style="width: 200px"/></td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+<div id="dlg-buttons">
+    <a onclick="modifyPwd()" class="easyui-linkbutton" iconCls="icon-ok">保存</a>
+    <a onclick="closeModifyPwdDialog()" class="easyui-linkbutton" iconCls="icon-cancel">取消</a>
+</div>
+
+</body>
+</html>

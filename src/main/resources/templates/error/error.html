@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/css/err.css}">
+    <title>error</title>
+</head>
+<body>
+<div class="c">
+    <h2 th:text="${exception}"></h2>
+    <h1><img th:src="@{/images/err_net.png}"> </h1>
+    <p>There is something wrong with the system</font></p>
+    <p><font color="red" th:text="${url}"></font></p>
+    <a href="javascript:history.back(-1)">Go back </a>
+</div>
+
+</body>
+</html>

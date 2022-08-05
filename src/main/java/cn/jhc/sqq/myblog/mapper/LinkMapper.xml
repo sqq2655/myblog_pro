@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jhc.sqq.myblog.mapper.LinkMapper">
+
+    <resultMap id="LinkResult" type="link">
+        <result property="id" column="id"></result>
+        <result property="linkName" column="linkName"></result>
+        <result property="linkUrl" column="linkUrl"></result>
+        <result property="orderNo" column="orderNo"></result>
+        <result property="sign" column="sign"></result>
+        <association property="blogger" column="bloggerid" select="cn.jhc.sqq.myblog.mapper.BloggerMapper.findById"></association>
+
+    </resultMap>
+
+    <select id="findById" parameterType="integer" resultMap="LinkResult">
+        select * from link where id = #{id};
+    </select>
+
+    <select id="conditionlist" parameterType="map" resultMap="LinkResult">
+        select * from link
+         <where>
+             <if test="bloggerid !=null">
+                 and bloggerid = #{bloggerid}
+             </if>
+         </where>
+         order by orderNo asc
+        <if test="start != null and size != null">
+            limit #{start},#{size};
+        </if>
+    </select>
+
+    <select id="getTotal" parameterType="map" resultType="long">
+        select count(*) from link
+        <where>
+            <if test="bloggerid !=null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>
+    </select>
+
+    <insert id="add" parameterType="link">
+        insert into link values (null,#{linkName},#{linkUrl},#{orderNo},#{sign},#{blogger.id})
+    </insert>
+
+    <update id="update" parameterType="link">
+        update link
+        <set>
+            <if test="linkName!=null and linkName!=''">
+                linkName = #{linkName},
+            </if>
+            <if test="linkUrl!=null and linkUrl!=''">
+                linkUrl = #{linkUrl},
+            </if>
+            <if test="orderNo!=null">
+                orderNo = #{orderNo},
+            </if>
+            <if test="sign!=null and sign!=''">
+                sign = #{sign},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+
+    <delete id="delete" parameterType="integer">
+        delete from link where id = #{id}
+    </delete>
+
+    <delete id="deleteMore" parameterType="int[]">
+        delete from link  where id in
+        <foreach collection="array" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
+
+</mapper>

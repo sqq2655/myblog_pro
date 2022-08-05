@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.jhc.sqq.myblog.mapper.CommentMapper">
+
+    <resultMap id="CommentResult" type="comment">
+        <result property="id" column="id"></result>
+        <result property="userIp" column="userIp"></result>
+        <result property="content" column="content"></result>
+        <result property="commentDate" column="commentDate"></result>
+        <result property="state" column="state"></result>
+        <association property="blogger" column="bloggerid" select="cn.jhc.sqq.myblog.mapper.BloggerMapper.findById"></association>
+        <association property="blog" column="blogId" select="cn.jhc.sqq.myblog.mapper.BlogMapper.findById"></association>
+    </resultMap>
+
+
+    <insert id="add" parameterType="comment" >
+        insert into comment values(null,#{blogger.id},#{userIp},#{blog.id},#{content},now(),0);
+    </insert>
+
+    <update id="update" parameterType="comment">
+        update comment
+        <set>
+            <if test="state != null">
+                state = #{state},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <update id="updateMore">
+        update comment
+        <set>
+            <if test="state != null">
+                state = #{state},
+            </if>
+        </set>
+        where id in
+        <foreach collection="ids" item="id" open="("
+                              separator="," close=")">
+        #{id}
+        </foreach>
+    </update>
+
+<!--    SELECT
+          *
+        FROM
+         `comment`
+        WHERE
+     `comment`.blogId IN ( SELECT id FROM blog WHERE blog.bloggerid =1 )-->
+    <select id="list" parameterType="map" resultMap="CommentResult">
+        select * from comment
+        <where>
+         and comment.blogId in
+            (select id from blog
+            <where>
+                <if test="bloggerid !=null">
+                    and blog.bloggerid = #{bloggerid}
+                </if>
+            </where>
+            )
+            <if test="blogId != null">
+               and blogId = #{blogId}
+            </if>
+
+            <if test="state != null">
+                and state = #{state}
+            </if>
+
+        </where>
+
+        order by commentDate desc
+        <if test="start!=null and size!=null">
+            limit #{start},#{size}
+        </if>
+    </select>
+
+
+    <select id="getTotal" parameterType="map" resultType="long">
+    <!--    select count(*) from comment
+        <where>
+            <if test="blogId!=null">
+                and blogId = #{blogId}
+            </if>
+
+            <if test="state!=null">
+                and state=#{state}
+            </if>
+            <if test="bloggerid !=null">
+                and bloggerid = #{bloggerid}
+            </if>
+        </where>-->
+     select count(*) from comment
+        <where>
+         and comment.blogId in
+            (select id from blog
+            <where>
+                <if test="bloggerid !=null">
+                    and blog.bloggerid = #{bloggerid}
+                </if>
+            </where>
+            )
+            <if test="blogId != null">
+               and blogId = #{blogId}
+            </if>
+
+            <if test="state != null">
+                and state = #{state}
+            </if>
+
+        </where>
+    </select>
+
+
+    <delete id="delete" parameterType="integer" >
+        delete from comment where id = #{id}
+    </delete>
+
+    <delete id="deleteByBlogId" parameterType="integer">
+        delete from comment where blogId = #{blogId}
+    </delete>
+
+    <delete id="deleteMore" parameterType="int[]">
+        delete from comment where id in
+        <foreach collection="array" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
+
+    <delete id="deleteMoreByBlogId" parameterType="int[]">
+        delete from comment where blogId in
+        <foreach collection="array" item="arr" open="("
+                 separator="," close=")">
+            #{arr}
+        </foreach>
+    </delete>
+
+    <!--查询博客的评论数量-->
+    <select id="findCommentCount" parameterType="integer" resultType="integer">
+            select count(*) from comment where blogId  = #{blogId} and state = 1;
+    </select>
+
+
+
+</mapper>

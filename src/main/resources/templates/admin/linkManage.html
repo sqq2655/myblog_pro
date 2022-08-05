@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>友情链接管理</title>
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/easyui/easyui.css}">
+    <link rel="stylesheet" type="text/css"
+          th:href="@{/easyui/icon.css}">
+    <script type="text/javascript"
+            th:src="@{/easyui/jquery.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/easyui/jquery.easyui.min.js}"></script>
+    <script type="text/javascript"
+            th:src="@{/easyui/easyui-lang-zh_CN.js}"></script>
+
+    <script th:inline="javascript" type="text/javascript">
+        var url;
+        var ctx = /*[[@{/}]]*/ '';
+        $(function () {
+            $('#dg').datagrid({
+                url: ctx + 'admin/link/list'
+            });
+        })
+        function openLinkAddDialog() {
+            $("#dlg").dialog("open").dialog("setTitle","添加友情链接");
+            url=ctx+"admin/link/add";
+        }
+
+        function openLinkEditDialog() {
+            var selectedRows = $("#dg").datagrid("getSelections");
+            if(selectedRows.length!=1){
+                $.messager.alert("系统提示","请选择一条要修改的友情链接");
+                return;
+            }
+            $("#dlg").dialog("open").dialog("setTitle","修改友情链接");
+            $("#form").form("load",selectedRows[0]);
+            url= ctx + "admin/link/edit?id="+selectedRows[0].id;
+        }
+        function closeDlg() {
+            $("#dlg").dialog("close");
+            resetValue();
+        }
+        function resetValue() {
+            $("#linkName").val("");
+            $("#linkUrl").val("");
+            $("#orderNo").val("");
+        }
+
+        function saveLink() {
+            if($("#form").form("validate")){
+                $.ajax({
+                    type:"post",
+                    url:url,
+                    data:$("#form").serialize(),
+                    success:function (obj) {
+                        if(obj){
+                            $.messager.alert("系统提示","保存成功","info");
+                            resetValue();
+                            $("#dlg").dialog("close");
+                            $("#dg").datagrid("reload");
+                        }else {
+                            $.messager.alert("系统提示","保存失败","error");
+                        }
+                    }
+                })
+            }
+        }
+
+        function deleteLink() {
+            var url;
+            var selectedRows = $("#dg").datagrid("getSelections");
+            if(selectedRows.length==0){
+                $.messager.alert("系统提示","请选择一条要删除的数据");
+                return;
+            }
+            if(selectedRows.length==1){
+                url=ctx + "admin/link/delete?id="+selectedRows[0].id;
+            }
+            if(selectedRows.length>1){
+                var ids = [];
+                for (var i = 0; i < selectedRows.length; i++) {
+                    ids[i] = selectedRows[i].id;
+                }
+                var idsArray = ids.join(",");
+                url= ctx + "admin/link/delete?ids="+idsArray;
+            }
+            $.messager.confirm("系统提示","你确定要删除这<font color='red'>"+selectedRows.length+"</font>条链接吗?",function (e) {
+                if(e){
+                    $.post(url,function (obj) {
+                        if(obj){
+                            $.messager.alert("系统提示","删除成功");
+                            $("#dg").datagrid("reload");
+                        }else{
+                            $.messager.alert("系统提示","删除失败")
+                        }
+                    })
+                }
+            })
+
+        }
+        function formateUrl(val,row) {
+            return "<a href='"+val+"' target='_blank'>"+val+"</a>";
+        }
+
+    </script>
+</head>
+<body style="margin: 10px">
+<table id="dg" class="easyui-datagrid" pagination="true" rownumbers="true"
+       fit="true" toolbar="#tb">
+    <thead>
+    <tr>
+        <th field="cb" checkbox="true" align="center"></th>
+        <th field="id" width="100" align="center">编号</th>
+        <th field="linkName" width="450" align="center">友情链接名称</th>
+        <th field="linkUrl" width="450" align="center" formatter="formateUrl">链接地址</th>
+        <th field="orderNo" width="200" align="center">排序</th>
+    </tr>
+    </thead>
+</table>
+
+<div id="tb">
+    <a onclick="openLinkAddDialog()" class="easyui-linkbutton" data-options="iconCls:'icon-add'" plain="true">添加</a>
+    <a onclick="openLinkEditDialog()" class="easyui-linkbutton" data-options="iconCls:'icon-edit'" plain="true">编辑</a>
+    <a onclick="deleteLink()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'" plain="true">删除</a>
+</div>
+
+<div id="dlg" class="easyui-dialog"data-options="iconCls:'icon-save',resizable:true,modal:true"
+     style="width:500px;height:200px;padding:10px 8px" closed="true" buttons="#dlg-buttons">
+    <form id="form" action="" method="post">
+        <table cellspacing="8px">
+            <tr>
+                <td style="font-size: 13px">友情链接名称</td>
+                <td><input type="text" id="linkName" name="linkName" class="easyui-validatebox" required="true" style="width: 250px"></td>
+            </tr>
+            <tr>
+                <td  style="font-size: 13px">友情链接地址</td>
+                <td><input type="text" id="linkUrl" name="linkUrl" class="easyui-validatebox" required="true" style="width: 250px"></td>
+            </tr>
+            <tr>
+                <td  style="font-size: 13px">排序序号</td>
+                <td><input type="text" id="orderNo" name="orderNo" class="easyui-numberbox"
+                           data-options="required:true"style="width: 80px">(按友情链接排序)
+
+                </td>
+            </tr>
+
+        </table>
+    </form>
+</div>
+
+<div id="dlg-buttons">
+    <a onclick="saveLink()" class="easyui-linkbutton" data-options="iconCls:'icon-save'">保存</a>
+    <a onclick="closeDlg()" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'">取消</a>
+
+</div>
+</body>
+</html>
